@@ -1,70 +1,71 @@
-nav a {
-   background-color:yellowgreen;
+.flashes {
+    padding: 5px;
+    margin: 5px;
+    background-color: green;
+    list-style-type: none;
 }
 
-a:hover {
-    background-color:pink;
-}
-
-body {
-    background-color: yellowgreen;
-}
-
-nav.navigation{
-    width:100%;
-    height: 70px;
-    background-color : khaki;
+table, tr {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-radius: 150px;
 }
 
 a {
-    width:150px;
-    height: 60px;
-    background-color:gold;
+    width: 150px;
+    height: 30px;
+    background-color: gold;
     border: 1px green groove;
-    text-align:center;
-    padding: 10px;
-    margin : 10px;
-    border-radius: 15px ;
-    display:block;
-    float:left;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 15px;
 }
 
-a:hover {
-    background-color:pink;
+.alert-warning {
+    background-color: rgba(255, 197, 197, 1);
 }
 
-table{
-    width:40%;
-    border:solid  5px;
-    border-color: blue;
-    border-collapse:collapse;
-    text-align:center;
-    margin-left:auto;
-    margin-right:auto;
+.alert-success {
+    background-color: #bdfdbd;
 }
 
-table td {
-    border:solid green 2px;
+form {
+    width: 30vw;
+    margin-right: auto;
+    margin-left: auto;
+    border: black solid 1px;
+    border-radius: 10px;
+    padding: 20px;
 }
 
-table caption{
-    margin-left:auto;
-    margin-right:auto;
-    margin-bottom:5px;
-    color:olive;
+.menu{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+   background-color:#212529 ;
+    width: 100%;
+    z-index: 10;
+    top:0px;
 }
 
-table thead{
-    color:purple;
-    background-color:LightBlue; /*#ADD8E6*/
+h3, h2, h1{
+    text-align: center;
 }
 
-table thead th{
-    border:solid rgb(0, 255, 60) 2px;
+body{
+    padding-top: 3rem;
 }
 
-table tfoot{
-    color:purple;
-    background-color:green;
+.btn-add{
+    display: block;
+    margin-left: 50vw;
+    transform: translateX(-50%);
 }
 
+.btn{
+    height: auto;
+    width: auto;
+}

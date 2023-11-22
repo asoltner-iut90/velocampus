@@ -15,7 +15,7 @@ def get_db():
             host="localhost",                 # à modifier
             user="audrick",                     # à modifier
             password="mdp",                # à modifier
-            database="TP",        # à modifier
+            database="SAE",        # à modifier
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor
         )
@@ -30,6 +30,11 @@ def teardown_db(exception):
 app = Flask(__name__)    # instance de classe Flask (en paramètre le nom du module)
 
 @app.route('/')
+def show_index():
+    return render_template('index.html')
+
+#Example
+"""
 @app.route('/etudiant/show')
 def show_etudiants():
     mycursor = get_db().cursor()
@@ -105,7 +110,63 @@ def valid_edit_etudiant():
     sql="UPDATE etudiant SET nom_etudiant = %s, groupe_etudiant= %s WHERE id_etudiant=%s;"
     mycursor.execute(sql,tuple_param)
     get_db().commit()
-    return redirect('/etudiant/show')
+    return redirect('/etudiant/show')"""
+
+#Contrat (Audrick)
+@app.route('/contrat/show')
+def show_contrats():
+    mycursor = get_db().cursor()
+    sql=''' SELECT Contrat.id_contrat AS idContrat, Contrat.id_velo AS idVelo, Contrat.id_etudiant AS idEtudiant, Contrat.date_debut, Contrat.date_fin,
+    Etudiant.nom as nomEtudiant, Etudiant.prenom as prenomEtudiant
+    FROM Contrat JOIN Etudiant ON Contrat.id_etudiant = Etudiant.id_etudiant
+    ORDER BY id_contrat;'''
+    mycursor.execute(sql)
+    liste_contrats = mycursor.fetchall()
+    return render_template('contrat/show_contrats.html', contrats=liste_contrats)
+
+@app.route('/contrat/delete')
+def delete_contratt():
+    id=request.args.get('id',0)
+    print('''suppression du contrat avec l'ID : ''' + id)
+    mycursor = get_db().cursor()
+    tuple_param=(id)
+    sql="DELETE FROM Contrat WHERE id_contrat=%s;"
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    id=request.args.get('id',0)
+    return redirect('/contrat/show')
+
+@app.route('/contrat/add', methods=['GET'])
+def add_contrat():
+    mycursor = get_db().cursor()
+    sql='''SELECT id_etudiant AS id, nom, prenom
+    FROM Etudiant
+    ORDER BY id_etudiant;'''
+    mycursor.execute(sql)
+    liste_etudiants = mycursor.fetchall()
+    sql='''SELECT id_velo AS id
+    FROM Velo
+    ORDER BY id_velo;'''
+    mycursor.execute(sql)
+    liste_velos = mycursor.fetchall()
+    print('''affichage du formulaire pour saisir un contrat''')
+    return render_template('contrat/add_contrat.html', velos=liste_velos, etudiants=liste_etudiants)
+
+@app.route('/contrat/add', methods=['POST'])
+def valid_add_contrat():
+    print('''ajout du contrat dans le tableau''')
+    idVelo = request.form.get('idVelo')
+    idEtudiant = request.form.get('idEtudiant')
+    dateDebut = request.form.get('dateDebut')
+    dateFin = request.form.get('dateFin')
+    #message = 'nom :' + nom + ' - groupe :' + groupe
+    #print(message)
+    mycursor = get_db().cursor()
+    tuple_param=(dateDebut, dateFin,idEtudiant, idVelo)
+    sql="INSERT INTO Contrat (date_debut, date_fin, id_etudiant, id_velo) VALUES (%s, %s,%s,%s);"
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    return redirect('/contrat/show')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
