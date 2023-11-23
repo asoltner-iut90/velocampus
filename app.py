@@ -116,7 +116,7 @@ def valid_edit_etudiant():
 @app.route('/contrat/show')
 def show_contrats():
     mycursor = get_db().cursor()
-    sql=''' SELECT Contrat.id_contrat AS idContrat, Contrat.id_velo AS idVelo, Contrat.id_etudiant AS idEtudiant, Contrat.date_debut, Contrat.date_fin,
+    sql=''' SELECT Contrat.id_contrat AS idContrat, Contrat.id_velo AS idVelo, Contrat.id_etudiant AS idEtudiant, Contrat.date_debut AS dateDebut, Contrat.date_fin AS dateFin,
     Etudiant.nom as nomEtudiant, Etudiant.prenom as prenomEtudiant
     FROM Contrat JOIN Etudiant ON Contrat.id_etudiant = Etudiant.id_etudiant
     ORDER BY id_contrat;'''
@@ -133,7 +133,6 @@ def delete_contratt():
     sql="DELETE FROM Contrat WHERE id_contrat=%s;"
     mycursor.execute(sql,tuple_param)
     get_db().commit()
-    id=request.args.get('id',0)
     return redirect('/contrat/show')
 
 @app.route('/contrat/add', methods=['GET'])
@@ -169,13 +168,13 @@ def valid_add_contrat():
     return redirect('/contrat/show')
 
 @app.route('/contrat/edit', methods=['GET'])
-def edit_etudiant():
+def edit_contrat():
     print('''affichage du formulaire pour modifier un contrat''')
     print(request.args)
     print(request.args.get('id'))
     id=request.args.get('id')
     mycursor = get_db().cursor()
-    sql='''SELECT id_etudiant AS idEtudiant, id_velo AS idVelo
+    sql='''SELECT id_contrat AS idContrat, id_etudiant AS idEtudiant, id_velo AS idVelo, date_debut as dateDebut, date_fin as dateFin
     FROM Contrat
     WHERE id_contrat=%s;'''
     tuple_param=(id)
@@ -192,6 +191,23 @@ def edit_etudiant():
     mycursor.execute(sql)
     liste_velos = mycursor.fetchall()
     return render_template('contrat/edit_contrat.html', contrat=contrat, velos=liste_velos, etudiants=liste_etudiants)
+
+@app.route('/contrat/edit', methods=['POST'])
+def valid_edit_contrat():
+    print('''modification du contrat dans le tableau''')
+    id = int(request.form.get('idContrat'))
+    idVelo = request.form.get('idVelo')
+    idEtudiant = request.form.get('idEtudiant')
+    dateDebut = request.form.get('dateDebut')
+    dateFin = request.form.get('dateFin')
+    #message = 'nom :' + nom + ' - groupe :' + groupe + ' pour l etudiant d identifiant :' + id
+    #print(message)
+    mycursor = get_db().cursor()
+    tuple_param=(idVelo,idEtudiant,dateDebut,dateFin,id)
+    sql="UPDATE Contrat SET id_velo = %s, id_etudiant= %s, date_debut = %s, date_fin = %s WHERE id_contrat=%s;"
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    return redirect('/contrat/show')
 
 
 if __name__ == '__main__':

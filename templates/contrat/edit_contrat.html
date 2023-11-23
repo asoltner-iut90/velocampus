@@ -12,19 +12,20 @@
     <form method="post" action="/contrat/edit">
         <fieldset>
             <legend>Modifier un contrat</legend>
+            <input type="hidden" name="idContrat" value="{{ contrat.idContrat }}" >
             <select name="idVelo" required class="form-select" id="idVelo">
                 {% for velo in velos %}
-                    <option value="{{ velo.id }}" {% if velo.id %} > {{ velo.id }} </option>
+                    <option value="{{ velo.id }}" {% if velo.id == contrat.idVelo %}selected{% endif %} > {{ velo.id }} </option>
                 {% endfor %}
             </select><br>
             <select name="idEtudiant" required class="form-select" id="idEtudiant">
                 {% for etudiant in etudiants %}
-                    <option value="{{ etudiant.id }}"> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
+                    <option value="{{ etudiant.id }}" {% if etudiant.id == contrat.idEtudiant %}selected{% endif %}> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
                 {% endfor %}
             </select><br>
-            <input id="dateDebut" type="datetime-local" name="dateDebut" value=""
-                placeholder="Saisir la date de debut" class="form-control" required><br>
-            <input id="dateFin" type="datetime-local" name="dateFin" value=""
+            <input id="dateDebut" type="datetime-local" name="dateDebut"
+                placeholder="Saisir la date de debut" class="form-control" required value="{{contrat.dateDebut}}"><br>
+            <input id="dateFin" type="datetime-local" name="dateFin" value="{{contrat.dateFin}}"
                 placeholder="Saisir la date de fin" class="form-control" required><br>
             <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
         </fieldset>
