@@ -125,7 +125,7 @@ def show_contrats():
     return render_template('contrat/show_contrats.html', contrats=liste_contrats)
 
 @app.route('/contrat/delete')
-def delete_contratt():
+def delete_contrat():
     id=request.args.get('id',0)
     print('''suppression du contrat avec l'ID : ''' + id)
     mycursor = get_db().cursor()
