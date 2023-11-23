@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    <title>Afficher les contrats</title>
+{% endblock %}
+
+{% block body %}
+    <h3>Etudiant</h3>
+    <a class="btn btn-dark btn-add" href="/etudiant/add" style="width: auto">Ajouter un etudiant</a>
+    <br><br>
+
+    <table class="table table-dark table-striped" style="width: 98vw; margin: 1vw;">
+        <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <td>Email</td>
+            <td>Téléphone</td>
+            <td>Formation</td>
+            <td>Opération</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% if etudiants | length >= 1 %}
+            {% for ligne in etudiants %}
+                <tr>
+                    <td>{{ ligne.idEtudiant }}</td>
+                    <td>{{ ligne.nomEtudiant }}</td>
+                    <td>{{ ligne.prenomEtudiant }}</td>
+                    <td>{{ ligne.email }}</td>
+                    <td>{{ ligne.telephone }}</td>
+                    <td>{{  }}</td>
+                    <td>
+                        <a href="/etudiant/edit?id={{ ligne.idEtudiant }}" class="btn btn-light">Editer</a>&nbsp;
+                        <a href="/etudiant/delete?id={{ ligne.idEtudiant }}" class="btn btn-light">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td>
+                    pas d'étudiant
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

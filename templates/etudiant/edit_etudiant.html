@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    <title>Modifier une région</title>
+{% endblock %}
+
+{% block body %}
+    <h2>Modification d'un contrat</h2>
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <form method="post" action="/contrat/edit">
+        <fieldset>
+            <legend>Modifier un contrat</legend>
+            <select name="idVelo" required class="form-select" id="idVelo">
+                {% for velo in velos %}
+                    <option value="{{ velo.id }}" {% if velo.id %} > {{ velo.id }} </option>
+                {% endfor %}
+            </select><br>
+            <select name="idEtudiant" required class="form-select" id="idEtudiant">
+                {% for etudiant in etudiants %}
+                    <option value="{{ etudiant.id }}"> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
+                {% endfor %}
+            </select><br>
+            <input id="dateDebut" type="datetime-local" name="dateDebut" value=""
+                placeholder="Saisir la date de debut" class="form-control" required><br>
+            <input id="dateFin" type="datetime-local" name="dateFin" value=""
+                placeholder="Saisir la date de fin" class="form-control" required><br>
+            <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
+        </fieldset>
+    </form>
+{% endblock %}
