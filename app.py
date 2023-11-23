@@ -112,6 +112,58 @@ def valid_edit_etudiant():
     get_db().commit()
     return redirect('/etudiant/show')"""
 
+#Etudiant (Gaël)
+@app.route('/etudiant/show')
+def show_etudiants():
+    mycursor = get_db().cursor()
+    sql=''' SELECT Etudiant.id_etudiant AS idEtudiant, Etudiant.nom AS nomEtudiant, Etudiant.prenom AS prenomEtudiant, Etudiant.email, Etudiant.telephone
+    FROM Etudiant
+    ORDER BY id_etudiant;'''
+    mycursor.execute(sql)
+    liste_etudiants = mycursor.fetchall()
+    return render_template('etudiant/show_etudiants.html', etudiants=liste_etudiants)
+
+@app.route('/etudiant/delete')
+def delete_etudiant():
+    id=request.args.get('id',0)
+    print('''suppression du contrat avec l'ID : ''' + id)
+    mycursor = get_db().cursor()
+    tuple_param=(id)
+    sql="""DELETE FROM Contrat WHERE id_etudiant=%s;"""
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    sql = """DELETE FROM Etudiant WHERE id_etudiant=%s;"""
+    mycursor.execute(sql, tuple_param)
+    get_db().commit()
+    return redirect('/etudiant/show')
+
+@app.route('/etudiant/add', methods=['GET'])
+def add_etudiant():
+    mycursor = get_db().cursor()
+    sql='''SELECT id_etudiant AS id, nom, prenom
+    FROM Etudiant
+    ORDER BY id_etudiant;'''
+    mycursor.execute(sql)
+    liste_etudiants = mycursor.fetchall()
+    print('''affichage du formulaire pour saisir un contrat''')
+    return render_template('contrat/add_contrat.html', etudiants=liste_etudiants)
+
+@app.route('/etudiant/add', methods=['POST'])
+def valid_add_etudiant():
+    print('''ajout du contrat dans le tableau''')
+    idVelo = request.form.get('idVelo')
+    idEtudiant = request.form.get('idEtudiant')
+    dateDebut = request.form.get('dateDebut')
+    dateFin = request.form.get('dateFin')
+    #message = 'nom :' + nom + ' - groupe :' + groupe
+    #print(message)
+    mycursor = get_db().cursor()
+    tuple_param=(dateDebut, dateFin,idEtudiant, idVelo)
+    sql="INSERT INTO Etudiant (date_debut, date_fin, id_etudiant, id_velo) VALUES (%s, %s,%s,%s);"
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    return redirect('/contrat/show')
+
 #Contrat (Audrick)
 @app.route('/contrat/show')
 def show_contrats():
