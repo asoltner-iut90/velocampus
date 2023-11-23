@@ -168,5 +168,31 @@ def valid_add_contrat():
     get_db().commit()
     return redirect('/contrat/show')
 
+@app.route('/contrat/edit', methods=['GET'])
+def edit_etudiant():
+    print('''affichage du formulaire pour modifier un contrat''')
+    print(request.args)
+    print(request.args.get('id'))
+    id=request.args.get('id')
+    mycursor = get_db().cursor()
+    sql='''SELECT id_etudiant AS idEtudiant, id_velo AS idVelo
+    FROM Contrat
+    WHERE id_contrat=%s;'''
+    tuple_param=(id)
+    mycursor.execute(sql,tuple_param)
+    contrat = mycursor.fetchone()
+    sql='''SELECT id_etudiant AS id, nom, prenom
+    FROM Etudiant
+    ORDER BY id_etudiant;'''
+    mycursor.execute(sql)
+    liste_etudiants = mycursor.fetchall()
+    sql='''SELECT id_velo AS id
+    FROM Velo
+    ORDER BY id_velo;'''
+    mycursor.execute(sql)
+    liste_velos = mycursor.fetchall()
+    return render_template('contrat/edit_contrat.html', contrat=contrat, velos=liste_velos, etudiants=liste_etudiants)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

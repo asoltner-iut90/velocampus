@@ -26,8 +26,8 @@
                     <td>{{ ligne.idEtudiant }} -> {{ ligne.nomEtudiant }} {{ ligne.prenomEtudiant }}</td>
                     <td>{{ ligne.idVelo }}</td>
                     <td>
-                        <a href="/contrat/edit?id={{ ligne.id }}" class="btn btn-light">Editer</a>&nbsp;
-                        <a href="/contrat/delete?id={{ ligne.id }}" class="btn btn-light">Supprimer</a>
+                        <a href="/contrat/edit?id={{ ligne.idContrat }}" class="btn btn-light">Editer</a>&nbsp;
+                        <a href="/contrat/delete?id={{ ligne.idContrat }}" class="btn btn-light">Supprimer</a>
                     </td>
                 </tr>
             {% endfor %}
