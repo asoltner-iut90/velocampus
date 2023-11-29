@@ -28,9 +28,12 @@
                     <td>{{ ligne.idEtudiant }}</td>
                     <td>{{ ligne.nomEtudiant }}</td>
                     <td>{{ ligne.prenomEtudiant }}</td>
-                    <td>{{ ligne.email }}</td>
-                    <td>{{ ligne.telephone }}</td>
-                    <td>{{  }}</td>
+                    <td>{{ ligne.emailEtudiant }}</td>
+                    <td>{{ ligne.telephoneEtudiant }}</td>
+                    {% for composante in composantes %}
+                        <td>{{ composante.nom_formation }}</td>
+                    {% endfor %}
+
                     <td>
                         <a href="/etudiant/edit?id={{ ligne.idEtudiant }}" class="btn btn-light">Editer</a>&nbsp;
                         <a href="/etudiant/delete?id={{ ligne.idEtudiant }}" class="btn btn-light">Supprimer</a>
