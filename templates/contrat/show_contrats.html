@@ -30,8 +30,13 @@
                     <td>{{ ligne.dateDebut }}</td>
                     <td>{{ ligne.dateFin }}</td>
                     <td>
-                        <a href="/contrat/edit?id={{ ligne.idContrat }}" class="btn btn-light">Editer</a>&nbsp;
-                        <a href="/contrat/delete?id={{ ligne.idContrat }}" class="btn btn-light">Supprimer</a>
+                        <button style="width: 40px; height: 40px; border: 1px solid " class="btn">
+                            <i class="fa fa-trash-o" style="color:red; font-size:30px"></i>
+                        </button>
+
+                        
+                        
+                        <a href="/contrat/edit?id={{ ligne.idContrat }}" class="btn btn-light">Editer</a>
                     </td>
                 </tr>
             {% endfor %}

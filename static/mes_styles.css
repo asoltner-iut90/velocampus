@@ -1,3 +1,4 @@
+
 .flashes {
     padding: 5px;
     margin: 5px;
@@ -28,15 +29,19 @@ form {
     padding: 20px;
 }
 
+
+
 .menu{
     position: fixed;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-   background-color:#212529 ;
+    
+    background-color:#212529 ;
+    align-items: center;
     width: 100%;
     z-index: 10;
     top:0px;
+    height: 3.5em;
 }
 
 h3, h2, h1{
@@ -44,7 +49,7 @@ h3, h2, h1{
 }
 
 body{
-    padding-top: 3rem;
+    padding-top: 3.5rem;
 }
 
 .btn-add{
@@ -57,3 +62,9 @@ body{
     height: auto;
     width: auto;
 }
+.dropdown{
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
