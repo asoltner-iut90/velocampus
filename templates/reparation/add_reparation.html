@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    <title>Ajouter une réparation</title>
+{% endblock %}
+
+{% block body %}
+    <h2>Ajout d'une réparation</h2>
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <form method="post" action="/reparation/add">
+        <fieldset>
+            <legend> Créer une réparation</legend>
+            <select name="idVelo" required class="form-select" id="idVelo">
+                <option value="" disabled selected>Choisissez un velo</option>
+                {% for velo in velos %}
+                    <option value="{{ velo.idVelo }}"> {{ velo.idVelo }} </option>
+                {% endfor %}
+            </select>
+            <br>
+            <select name="descriptifs" required class="form-select" id="descriptif">
+                <option value="" disabled selected>Choisissez un descriptif de réparation</option>
+                {% for descriptif in reparations %}
+                    <option value="{{ descriptif.descriptif }}"> {{ descriptif.descriptif }} </option>
+                {% endfor %}
+            </select>
+            <br>
+            <input id="date_reparation" type="date" name="date_reparation" value=""
+                placeholder="Saisir la date de la réparation" class="form-control" required><br>
+            <br>
+            <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
+        </fieldset>
+    </form>
+{% endblock %}
