@@ -1,23 +1,24 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    <title>Afficher les contrats</title>
+    <title>Afficher les étudiants</title>
 {% endblock %}
 
 {% block body %}
     <h3>Etudiant</h3>
     <a class="btn btn-dark btn-add" href="/etudiant/add" style="width: auto">Ajouter un etudiant</a>
     <br><br>
-
     <table class="table table-dark table-striped" style="width: 98vw; margin: 1vw;">
         <thead class="thead-dark">
         <tr>
-            <th>Id</th>
+            <th>Id Etudiant</th>
             <th>Nom</th>
             <th>Prénom</th>
             <td>Email</td>
             <td>Téléphone</td>
             <td>Formation</td>
+            <td>Etablissement</td>
+            <td>Id Composante</td>
             <td>Opération</td>
         </tr>
         </thead>
@@ -30,12 +31,11 @@
                     <td>{{ ligne.prenomEtudiant }}</td>
                     <td>{{ ligne.emailEtudiant }}</td>
                     <td>{{ ligne.telephoneEtudiant }}</td>
-                    {% for composante in composantes %}
-                        <td>{{ composante.nom_formation }}</td>
-                    {% endfor %}
-
+                    <td>{{ ligne.nom_formation }}</td>
+                    <td>{{ ligne.nom_etablissement }}</td>
+                    <td>{{ ligne.id_composante }}</td>
                     <td>
-                        <a href="/etudiant/edit?id={{ ligne.idEtudiant }}" class="btn btn-light">Editer</a>&nbsp;
+                        <a href="/etudiant/edit?id={{ ligne.idEtudiant }}" class="btn btn-outline-light">Editer</a>&nbsp;
                         <a href="/etudiant/delete?id={{ ligne.idEtudiant }}" class="btn btn-light">Supprimer</a>
                     </td>
                 </tr>

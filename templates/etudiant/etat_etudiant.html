@@ -1,0 +1,58 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    <title>État de l'Étudiant</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h3 class="mb-4">État de l'Étudiant</h3>
+
+        <form method="post" action="/etat_etudiant">
+            <label for="etudiant_id" class="form-label">ID de l'Étudiant :</label>
+            <input type="text" class="form-control" id="etudiant_id" name="etudiant_id" required>
+            <button type="submit" class="btn btn-dark mt-3">Afficher l'État</button>
+        </form>
+
+        {% if etudiants %}
+            <h5>Informations sur l'Étudiant :</h5>
+            <table class="table table-dark table-striped" >
+                <!-- Ajoutez ici les colonnes que vous souhaitez afficher -->
+            <thead class="thead-dark">
+                <tr>
+                    <th style="text-align: center;">Id Etudiant</th>
+                    <th style="text-align: center;">Nom</th>
+                    <th style="text-align: center;">Prénom</th>
+                    <th style="text-align: center;">Email</th>
+                    <th style="text-align: center;">Téléphone</th>
+                    <th style="text-align: center;">Formation</th>
+                    <th style="text-align: center;">Etablissement</th>
+                    <th style="text-align: center;">Id Composante</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if etudiants | length >= 1 %}
+                    {% for ligne in etudiants %}
+                        <tr>
+                            <td>{{ ligne.idEtudiant }}</td>
+                            <td>{{ ligne.nomEtudiant }}</td>
+                            <td>{{ ligne.prenomEtudiant }}</td>
+                            <td>{{ ligne.emailEtudiant }}</td>
+                            <td>{{ ligne.telephoneEtudiant }}</td>
+                            <td>{{ ligne.nom_formation }}</td>
+                            <td>{{ ligne.nom_etablissement }}</td>
+                            <td>{{ ligne.id_composante }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>
+                            pas d'étudiant
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

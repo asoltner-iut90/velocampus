@@ -1,32 +1,44 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    <title>Modifier une région</title>
+    <title>Modifier un étudiant</title>
 {% endblock %}
 
 {% block body %}
-    <h2>Modification d'un contrat</h2>
+    <h2>Modification d'un étudiant</h2>
     {% if error %}
         <p class=error><strong>Error:</strong> {{ error }}
     {% endif %}
-    <form method="post" action="/contrat/edit">
+    <form method="post" action="/etudiant/edit">
         <fieldset>
-            <legend>Modifier un contrat</legend>
-            <select name="idVelo" required class="form-select" id="idVelo">
-                {% for velo in velos %}
-                    <option value="{{ velo.id }}" {% if velo.id %} > {{ velo.id }} </option>
+            <legend>Modifier un étudiant</legend>
+            <label for="idEtudiant" >id de l'étudiant</label><br>
+            <input type="text" name="idEtudiant" value="{{ etudiant.id }}" disabled><br><br>
+            <label for="nom">Nom de l'étudiant</label><br>
+            <input type="text" name="nomEtudiant" value="{{ etudiant.nom }}"><br><br>
+            <label for="prenom">Prénom de l'étudiant</label><br>
+            <input type="text" name="prenomEtudiant" value="{{ etudiant.prenom }}"><br><br>
+            <label for="email">Email de l'étudiant</label><br>
+            <input type="text" name="emailEtudiant" value="{{ etudiant.email }}"><br><br>
+            <label for="telephone">Numéro de téléphone</label><br>
+            <input type="tel" name="telephoneEtudiant" value="{{ etudiant.telephone }}"><br><br>
+            <input type="hidden" name="composante" value="{{ etudiant.id_composante }}">
+            <label for="formation">Formation de l'étudiant</label><br>
+            <select name="formation" required class="form-select" id="formation">
+                <option value="" disabled selected>Choisissez un établissement</option>
+                {% for formation in formations %}
+                    <option value="{{ formation.id_formation }}" {% if etudiant.id_composante == formation.id_formation %}selected{% endif %} > {{ formation.nom_formation }} </option>
                 {% endfor %}
             </select><br>
-            <select name="idEtudiant" required class="form-select" id="idEtudiant">
-                {% for etudiant in etudiants %}
-                    <option value="{{ etudiant.id }}"> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
+            <label for="etablissement">Établissement de l'étudiant</label>
+            <select name="etablissement" required class="form-select" id="etablissement">
+                <option value="" disabled selected>Choisissez un établissement</option>
+                {% for etablissement in etablissements %}
+                    <option value="{{ etablissement.id_etablissement }}" {% if etablissement.id_composante == etablissement.id_formation %}selected{% endif %} > {{ etablissement.nom_etablissement }} </option>
                 {% endfor %}
             </select><br>
-            <input id="dateDebut" type="datetime-local" name="dateDebut" value=""
-                placeholder="Saisir la date de debut" class="form-control" required><br>
-            <input id="dateFin" type="datetime-local" name="dateFin" value=""
-                placeholder="Saisir la date de fin" class="form-control" required><br>
-            <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
+
+            <input type="submit" value="Modifier" name="Valider" class="btn btn-dark">
         </fieldset>
     </form>
 {% endblock %}

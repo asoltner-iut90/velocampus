@@ -1,0 +1,51 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    <title>Afficher les réparations</title>
+{% endblock %}
+
+{% block body %}
+    <h3>Réparations</h3>
+    <a class="btn btn-dark btn-add" href="/reparation/add" style="width: auto">Ajouter une réparation</a>
+    <br><br>
+
+    <table class="table table-dark table-striped" style="width: 98vw; margin: 1vw;">
+        <thead class="thead-dark">
+        <tr>
+            <th>id</th>
+            <th>id vélo</th>
+            <th>descriptif</th>
+            <th>date Réparation</th>
+            <td>option</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% if reparations | length >= 1 %}
+            {% for ligne in reparations %}
+                <tr>
+                    <td>{{ ligne.idReparation }}</td>
+                    <td>{{ ligne.idVelo }}</td>
+                    <td>{{ ligne.descriptif }}</td>
+                    <td>{{ ligne.dateReparation }}</td>
+
+                    <td style="vertical-align: middle;">
+                        <button style="width: 40px; height: 40px;" class="btn" onclick="window.location.href = '/reparation/edit?id={{ ligne.idReparation }}'">
+                            <i class="glyphicon glyphicon-pencil" style="color:rgb(70, 223, 31); font-size:20px; display:flex; justify-content: center; align-items: center; flex-direction: row;"></i>
+                        </button>
+                        <button style="width: 40px; height: 40px;" class="btn">
+                            <i class="fa fa-trash-o" style="color:rgb(232, 34, 34); font-size:23px; display:flex; justify-content: center; align-items: center; flex-direction: row;" onclick="window.location.href = '/reparation/delete?id={{ ligne.idReparation }}'"></i>
+                        </button>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td>
+                    pas de region
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
