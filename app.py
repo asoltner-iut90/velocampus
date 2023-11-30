@@ -268,6 +268,31 @@ def valid_edit_etudiant():
     mycursor.execute(sql, tuple_param)
     get_db().commit()
     return redirect('/etudiant/show')
+
+@app.route('/etat_etudiant', methods=['GET', 'POST'])
+def etat_etudiant():
+    if request.method == 'POST':
+        etudiant_id = request.form.get('etudiant_id')
+
+        # Vous pouvez ajouter d'autres filtres ici en fonction de vos besoins
+
+        # Exécutez la requête en fonction des filtres fournis
+        mycursor = get_db().cursor()
+        sql = '''SELECT E.nom_etablissement, F.nom_formation, C.id_composante, Etudiant.id_etudiant AS idEtudiant, Etudiant.nom AS nomEtudiant, Etudiant.prenom AS prenomEtudiant, Etudiant.email AS emailEtudiant, Etudiant.telephone AS telephoneEtudiant
+                 FROM Etudiant
+                 JOIN Composante C on Etudiant.id_composante = C.id_composante
+                 JOIN Etablissement E on C.id_etablissement = E.id_etablissement
+                 JOIN Formation F on C.id_formation = F.id_formation
+                 WHERE Etudiant.id_etudiant = %s
+                 ORDER BY idEtudiant;'''
+        mycursor.execute(sql, (etudiant_id,))
+        etudiants = mycursor.fetchall()
+
+        return render_template('etudiant/etat_etudiant.html', etudiants=etudiants)
+
+    # Si la méthode est GET (accès initial à la page), affichez la page avec le formulaire
+    return render_template('etudiant/etat_etudiant.html')
+  
 #Contrat (Audrick)
 @app.route('/contrat/show')
 def show_contrats():
