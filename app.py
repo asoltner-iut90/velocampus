@@ -12,10 +12,10 @@ import pymysql.cursors
 def get_db():
     if 'db' not in g:
         g.db =  pymysql.connect(
-            host="serveurmysql",                 # à modifier
-            user="grothlin",                     # à modifier
+            host="localhost",                 # à modifier
+            user="audrick",                     # à modifier
             password="mdp",                # à modifier
-            database="BDD_grothlin_sae",        # à modifier
+            database="SAE",        # à modifier
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor
         )
@@ -390,6 +390,24 @@ def valid_edit_contrat():
     get_db().commit()
     return redirect('/contrat/show')
 
+@app.route('/contrat/etat')
+def view_contrat():
+    sql="""SELECT Contrat.id_contrat AS idContrat, Contrat.date_debut as dateDebut, Contrat.date_fin AS dateFin, Contrat.id_etudiant AS idEtudiant,
+       E.nom AS nom, E.prenom AS prenom, E.email AS email, E.telephone as telephone,
+       Tv.caution AS caution, Tv.nom_type_velo AS type_velo,
+       Etablissement.nom_etablissement AS etablissement, F.nom_formation AS formation
+        FROM Contrat
+        JOIN Etudiant E ON Contrat.id_etudiant = E.id_etudiant
+        JOIN Velo V ON Contrat.id_velo = V.id_velo
+        JOIN Type_velo Tv on V.id_type_velo = Tv.id_type_velo
+        JOIN Composante C on E.id_composante = C.id_composante
+        JOIN Etablissement on C.id_etablissement = Etablissement.id_etablissement
+        JOIN Formation F on C.id_formation = F.id_formation"""
+    mycursor = get_db().cursor()
+    tuple_param=()
+    mycursor.execute(sql,tuple_param)
+    contrat = mycursor.fetchone()
+    return render_template('contrat/view_contrat.html', contrat=contrat)
 
 #Répatation(Mattéo)
 @app.route('/reparation/show')
@@ -424,27 +442,6 @@ def add_reparation():
     liste_velos = mycursor.fetchall()
     print('''affichage du formulaire pour saisir une réparation''')
     return render_template('reparation/add_reparation.html', velos=liste_velos)
-
-
-
-@app.route('/contrat/etat')
-def view_contrat():
-    sql="""SELECT Contrat.id_contrat AS idContrat, Contrat.date_debut as dateDebut, Contrat.date_fin AS dateFin, Contrat.id_etudiant AS idEtudiant,
-       E.nom AS nom, E.prenom AS prenom, E.email AS email, E.telephone as telephone,
-       Tv.caution AS caution, Tv.nom_type_velo AS type_velo,
-       Etablissement.nom_etablissement AS etablissement, F.nom_formation AS formation
-        FROM Contrat
-        JOIN Etudiant E ON Contrat.id_etudiant = E.id_etudiant
-        JOIN Velo V ON Contrat.id_velo = V.id_velo
-        JOIN Type_velo Tv on V.id_type_velo = Tv.id_type_velo
-        JOIN Composante C on E.id_composante = C.id_composante
-        JOIN Etablissement on C.id_etablissement = Etablissement.id_etablissement
-        JOIN Formation F on C.id_formation = F.id_formation"""
-    mycursor = get_db().cursor()
-    tuple_param=()
-    mycursor.execute(sql,tuple_param)
-    contrat = mycursor.fetchone()
-    return render_template('contrat/view_contrat.html', contrat=contrat)
     
 
 
