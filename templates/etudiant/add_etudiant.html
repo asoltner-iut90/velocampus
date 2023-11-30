@@ -1,34 +1,42 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    <title>Ajouter une région</title>
+    <title>Ajouter un étudiant</title>
 {% endblock %}
 
 {% block body %}
-    <h2>Ajout d'un contrat</h2>
+    <h2>Ajout d'un etudiant</h2>
     {% if error %}
         <p class=error><strong>Error:</strong> {{ error }}
     {% endif %}
-    <form method="post" action="/contrat/add">
+    <form method="post" action="/etudiant/add">
         <fieldset>
-            <legend> Créer un contrat</legend>
-            <select name="idVelo" required class="form-select" id="idVelo">
-                <option value="" disabled selected>Choisissez un velo</option>
-                {% for velo in velos %}
-                    <option value="{{ velo.id }}"> {{ velo.id }} </option>
-                {% endfor %}
-            </select><br>
-            <select name="idEtudiant" required class="form-select" id="idEtudiant">
-                <option value="" disabled selected>Choisissez un etudiant</option>
-                {% for etudiant in etudiants %}
-                    <option value="{{ etudiant.id }}"> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
+            <legend> Ajouter un étudiant</legend>
+
+            <label for="nomEtudiant">Nom de l'étudiant</label><br>
+            <input id="nomEtudiant" type="text" name="nomEtudiant" placeholder="Saisissez le nom de l'étudiant" required><br><br>
+            <label for="prenomEtudiant">Prénom de l'étudiant</label><br>
+            <input id="prenomEtudiant" type="text" name="prenomEtudiant" placeholder="Saisissez le prénom de l'étudiant" required><br><br>
+            <label for="emailEtudiant">Email de l'étudiant</label><br>
+            <input id="emailEtudiant" type="email" name="emailEtudiant" placeholder="Saisissez l'email" required><br><br>
+            <label for="telephoneEtudiant">Téléphone de l'étudiant</label><br>
+            <input id="telephoneEtudiant" type="tel" name="telephoneEtudiant" placeholder="Saisissez le téléphone" required><br><br>
+            <label for="idcomposante">Formation :</label><br>
+            <select name="idComposante" required class="form-select" id="idComposante">
+                <option value="" disabled selected>Choisissez une formation</option>
+                {% for composante in composantes %}
+                    <option value="{{ composante.id_formation }}"> {{ composante.nom_formation }} (id: {{ composante.id_formation }})</option>
                     {% endfor %}
             </select><br>
-            <input id="dateDebut" type="datetime-local" name="dateDebut" value=""
-                placeholder="Saisir la date de debut" class="form-control" required><br>
-            <input id="dateFin" type="datetime-local" name="dateFin" value=""
-                placeholder="Saisir la date de fin" class="form-control" required><br>
-            <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
+            <label for="idEtablissement">Établissement :</label><br>
+            <select name="idEtablissement" required class="form-select" id="idEtablissement">
+                <option value="" disabled selected>Choisissez un établissement</option>
+                {% for etablissement in etablissements %}
+                    <option value="{{ etablissement.id_etablissement }}"> {{ etablissement.nom_etablissement }} (id: {{ etablissement.id_etablissement }})</option>
+                    {% endfor %}
+            </select><br>
+
+            <input type="submit" value="Ajouter" name="Valider" class="btn btn-dark">
         </fieldset>
     </form>
 {% endblock %}
