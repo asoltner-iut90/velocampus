@@ -262,5 +262,42 @@ def valid_edit_contrat():
     return redirect('/contrat/show')
 
 
+#Répatation(Mattéo)
+@app.route('/reparation/show')
+def show_reparation():
+    mycursor = get_db().cursor()
+    sql = ''' SELECT Reparation.id_reparation AS idReparation, Reparation.date_reparation AS dateReparation, Reparation.descriptif AS descriptif, 
+        Velo.id_velo as idVelo
+        FROM Reparation JOIN Velo ON Reparation.id_velo = Velo.id_velo
+        ORDER BY id_reparation;'''
+    mycursor.execute(sql)
+    liste_reparations = mycursor.fetchall()
+    return render_template('reparation/show_reparation.html', reparations=liste_reparations)
+@app.route('/contrat/delete')
+
+def delete_reparation():
+    id=request.args.get('id',0)
+    print('''suppression de la réparation avec l'ID : ''' + id)
+    mycursor = get_db().cursor()
+    tuple_param=(id)
+    sql="DELETE FROM Reparation WHERE id_reparation=%s;"
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    return redirect('/reparation/show')
+
+@app.route('/reparation/add', methods=['GET'])
+def add_reparation():
+    mycursor = get_db().cursor()
+    sql='''SELECT id_velo AS id
+    FROM Velo
+    ORDER BY id_velo;'''
+    mycursor.execute(sql)
+    liste_velos = mycursor.fetchall()
+    print('''affichage du formulaire pour saisir une réparation''')
+    return render_template('reparation/add_reparation.html', velos=liste_velos)
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
