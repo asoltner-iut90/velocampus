@@ -269,7 +269,7 @@ def valid_edit_etudiant():
     get_db().commit()
     return redirect('/etudiant/show')
 
-@app.route('/etat_etudiant', methods=['GET', 'POST'])
+@app.route('/etudiant/etat', methods=['GET', 'POST'])
 def etat_etudiant():
     if request.method == 'POST':
         etudiant_id = request.form.get('etudiant_id')
