@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    <title>Modifier une région</title>
+    <title>Modifier un contrat</title>
 {% endblock %}
 
 {% block body %}
@@ -27,7 +27,7 @@
                 placeholder="Saisir la date de debut" class="form-control" required value="{{contrat.dateDebut}}"><br>
             <input id="dateFin" type="datetime-local" name="dateFin" value="{{contrat.dateFin}}"
                 placeholder="Saisir la date de fin" class="form-control" required><br>
-            <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
+            <input type="submit" value="Modifier" name="Valider" class="btn btn-dark">
         </fieldset>
     </form>
 {% endblock %}

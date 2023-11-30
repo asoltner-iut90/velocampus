@@ -3,6 +3,7 @@
 {% block title %}
     <title>Afficher les contrats</title>
 {% endblock %}
+  
 
 {% block body %}
     <h3>Contrats</h3>
@@ -12,38 +13,45 @@
     <table class="table table-dark table-striped" style="width: 98vw; margin: 1vw;">
         <thead class="thead-dark">
         <tr>
-            <th>id</th>
-            <th>etudiant</th>
-            <th>velo</th>
-            <th>date de début</th>
-            <th>date de fin</th>
-            <td>option</td>
+            <th style="text-align: center;">id</th>
+            <th style="text-align: center;">etudiant</th>
+            <th style="text-align: center;">velo</th>
+            <th style="text-align: center;">date de début</th>
+            <th style="text-align: center;">date de fin</th>
+            <td style="text-align: center;">option</td>
         </tr>
         </thead>
         <tbody>
         {% if contrats | length >= 1 %}
             {% for ligne in contrats %}
                 <tr>
-                    <td>{{ ligne.idContrat }}</td>
-                    <td>{{ ligne.idEtudiant }} -> {{ ligne.nomEtudiant }} {{ ligne.prenomEtudiant }}</td>
-                    <td>{{ ligne.idVelo }}</td>
-                    <td>{{ ligne.dateDebut }}</td>
-                    <td>{{ ligne.dateFin }}</td>
-                    <td>
-                        <button style="width: 40px; height: 40px; border: 1px solid " class="btn">
-                            <i class="fa fa-trash-o" style="color:red; font-size:30px"></i>
+                    <td style="vertical-align: middle;">{{ ligne.idContrat }}</td>
+                    <td style="vertical-align: middle;">
+                        <div class="group" style="text-align: center;">
+                            <div  class="left-group" style="width: 60%;">{{ ligne.nomEtudiant }} {{ ligne.prenomEtudiant }}</div>
+                            <div class="right-group" style="width: 20%;">{{ ligne.idEtudiant }}</div>
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle;">{{ ligne.idVelo }}</td>
+                    <td style="vertical-align: middle;">{{ ligne.dateDebut }}</td>
+                    <td style="vertical-align: middle;">{{ ligne.dateFin }}</td>
+                    <td style="vertical-align: middle;">
+                        <button style="width: 40px; height: 40px;" class="btn" onclick="window.location.href = '/contrat/edit?id={{ ligne.idContrat }}'">
+                            <i class="glyphicon glyphicon-pencil" style="color:rgb(70, 223, 31); font-size:20px; display:flex; justify-content: center; align-items: center; flex-direction: row;"></i>
                         </button>
-
+                        <button style="width: 40px; height: 40px;" class="btn">
+                            <i class="fa fa-trash-o" style="color:rgb(232, 34, 34); font-size:23px; display:flex; justify-content: center; align-items: center; flex-direction: row;" onclick="window.location.href = '/contrat/delete?id={{ ligne.idContrat }}'"></i>
+                        </button>
                         
                         
-                        <a href="/contrat/edit?id={{ ligne.idContrat }}" class="btn btn-light">Editer</a>
+                        
                     </td>
                 </tr>
             {% endfor %}
         {% else %}
             <tr>
                 <td>
-                    pas de region
+                    Pas de contrats
                 </td>
             </tr>
         {% endif %}

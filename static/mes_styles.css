@@ -8,8 +8,7 @@
 
 table, tr {
     table-layout: fixed;
-    border-collapse: collapse;
-    border-radius: 150px;
+    text-align: center;
 }
 
 .alert-warning {
@@ -68,3 +67,46 @@ body{
 
 }
 
+
+
+
+
+.group{
+    text-align: center;
+    color: black;
+    vertical-align: middle;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+}
+
+.right-group{
+    padding: 2px 6px 2px 2px;
+    border-radius: 0px 6px 6px 0px;
+    background-color: #bec4c9;
+    float: left;
+    width: auto;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.left-group{
+    height: 100%;
+    padding: 2px 2px 2px 6px;
+    width:auto;
+    float: left;
+    border-radius: 6px 0px 0px 6px;
+    background-color: #f0ebeb;
+    float:left;
+    vertical-align: middle;
+    left:100%;
+}
+td{
+    text-align: center;
+  }
+
+td{
+    height: 50px;
+    vertical-align: middle;
+    padding: auto;
+}
