@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    <title>Modifier une réparation</title>
+{% endblock %}
+
+{% block body %}
+    <h2>Modification d'une réparation</h2>
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <form method="post" action="/reparation/edit">
+
+        <fieldset>
+            <legend> Créer une réparation</legend>
+        <label>id du vélo:</label>
+
+        <input type="hidden" name="idReparation" value="{{ reparation.idReparation }}" >
+            <select name="idVelo" required class="form-select" id="idVelo">
+                {% for velo in liste_velos %}
+                    <option value="{{ velo.id }}" {% if velo.id == reparation.idVelo %}selected{% endif %} > {{ velo.id }} </option>
+                {% endfor %}
+            </select>
+
+            <br>
+        <label>Descriptif:</label>
+            <input  id="descriptif" name="descriptif" required class="form-control" value="{{ reparation.descriptif }}">
+            <br>
+        <label>Date de la réparation:</label>
+
+            <input id="date_reparation" type="date" name="date_reparation"
+                placeholder="Saisir la date de la réparation" class="form-control" required value="{{ reparation.dateReparation }}" >
+
+            <br>
+            <br>
+            <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
+        </fieldset>
+    </form>
+{% endblock %}
