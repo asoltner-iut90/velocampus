@@ -8,51 +8,77 @@
     <div class="container mt-5">
         <h3 class="mb-4">État de l'Étudiant</h3>
 
-        <form method="post" action="/etat_etudiant">
-            <label for="etudiant_id" class="form-label">ID de l'Étudiant :</label>
-            <input type="text" class="form-control" id="etudiant_id" name="etudiant_id" required>
+        <form method="post" action="/etudiant/etat">
+            <!-- ... Autres champs du formulaire ... -->
+
+            <div class="form-group">
+                <label for="etablissement_id" class="form-label">Choisir un Établissement :</label>
+                <select class="form-select" id="etablissement_id" name="etablissement_id">
+                    <option value="">Tous les établissements</option>
+                    {% for etablissement in etablissements %}
+                        <option value="{{ etablissement.id_etablissement }}">{{ etablissement.nom_etablissement }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label for="etudiant_id" class="form-label">Choisir un Étudiant :</label>
+                <select class="form-select" id="etudiant_id" name="etudiant_id">
+                    <option value="">Tous les étudiants</option>
+                    {% for etudiant in tous_les_etudiants %}
+                        <option value="{{ etudiant.id_etudiant }}">{{ etudiant.nom }} {{ etudiant.prenom }} (id:{{ etudiant.id_etudiant }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label for="contrat_id" class="form-label">Choisir un Contrat :</label>
+                <select class="form-select" id="contrat_id" name="contrat_id">
+                    <option value="">Tous les contrats</option>
+                    {% for contrat_id in contrat_ids %}
+                        <option value="{{ contrat_id.id_contrat }}">{{ contrat_id.id_contrat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+
             <button type="submit" class="btn btn-dark mt-3">Afficher l'État</button>
         </form>
+        <br>
 
         {% if etudiants %}
-            <h5>Informations sur l'Étudiant :</h5>
-            <table class="table table-dark table-striped" >
-                <!-- Ajoutez ici les colonnes que vous souhaitez afficher -->
-            <thead class="thead-dark">
+            <h5>Informations sur les Étudiants :</h5>
+            <table class="table table-dark table-striped" style="width: 120%; margin-left: -10%;">
+                <thead class="thead-dark">
                 <tr>
                     <th style="text-align: center;">Id Etudiant</th>
                     <th style="text-align: center;">Nom</th>
                     <th style="text-align: center;">Prénom</th>
-                    <th style="text-align: center;">Email</th>
-                    <th style="text-align: center;">Téléphone</th>
-                    <th style="text-align: center;">Formation</th>
-                    <th style="text-align: center;">Etablissement</th>
-                    <th style="text-align: center;">Id Composante</th>
+                    <th style="text-align: center;">ID Contrat</th>
+                    <th style="text-align: center;">Date Début</th>
+                    <th style="text-align: center;">Date Fin</th>
+                    <th style="text-align: center;">Établissement</th>
                 </tr>
-            </thead>
-            <tbody>
-                {% if etudiants | length >= 1 %}
-                    {% for ligne in etudiants %}
-                        <tr>
-                            <td>{{ ligne.idEtudiant }}</td>
-                            <td>{{ ligne.nomEtudiant }}</td>
-                            <td>{{ ligne.prenomEtudiant }}</td>
-                            <td>{{ ligne.emailEtudiant }}</td>
-                            <td>{{ ligne.telephoneEtudiant }}</td>
-                            <td>{{ ligne.nom_formation }}</td>
-                            <td>{{ ligne.nom_etablissement }}</td>
-                            <td>{{ ligne.id_composante }}</td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
+                </thead>
+                <tbody>
+                {% for etudiant in etudiants %}
                     <tr>
-                        <td>
-                            pas d'étudiant
-                        </td>
+                        <td>{{ etudiant.idEtudiant }}</td>
+                        <td>{{ etudiant.nomEtudiant }}</td>
+                        <td>{{ etudiant.prenomEtudiant }}</td>
+                        <td>{{ etudiant.id_contrat }}</td>
+                        <td>{{ etudiant.date_debut }}</td>
+                        <td>{{ etudiant.date_fin }}</td>
+                        <td>{{ etudiant.nom_etablissement }}</td>
                     </tr>
-                {% endif %}
+                {% endfor %}
                 </tbody>
             </table>
+        {% else %}
+            <p>Aucun étudiant trouvé.</p>
         {% endif %}
+
     </div>
 {% endblock %}
