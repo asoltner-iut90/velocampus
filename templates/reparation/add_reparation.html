@@ -12,6 +12,7 @@
     <form method="post" action="/reparation/add">
         <fieldset>
             <legend> Créer une réparation</legend>
+        <label>id du vélo:</label>
             <select name="idVelo" required class="form-select" id="idVelo">
                 <option value="" disabled selected>Choisissez un velo</option>
                 {% for velo in velos %}
@@ -19,13 +20,10 @@
                 {% endfor %}
             </select>
             <br>
-            <select name="descriptifs" required class="form-select" id="descriptif">
-                <option value="" disabled selected>Choisissez un descriptif de réparation</option>
-                {% for descriptif in reparations %}
-                    <option value="{{ descriptif.descriptif }}"> {{ descriptif.descriptif }} </option>
-                {% endfor %}
-            </select>
+        <label>Descriptif:</label>
+            <input  id="descriptif" name="descriptif" required class="form-control" placeholder="saisissez le descriptif">
             <br>
+        <label>Date de la réparation:</label>
             <input id="date_reparation" type="date" name="date_reparation" value=""
                 placeholder="Saisir la date de la réparation" class="form-control" required><br>
             <br>
