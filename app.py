@@ -271,27 +271,69 @@ def valid_edit_etudiant():
 
 @app.route('/etudiant/etat', methods=['GET', 'POST'])
 def etat_etudiant():
-    if request.method == 'POST':
+    mycursor = get_db().cursor()
+
+    # Récupérez la liste des établissements depuis la base de données
+    sql_etablissements = """SELECT id_etablissement, nom_etablissement FROM Etablissement ORDER BY nom_etablissement;"""
+    mycursor.execute(sql_etablissements)
+    etablissements = mycursor.fetchall()
+
+    # Récupérez la liste des étudiants depuis la base de données
+    sql_etudiants = """SELECT id_etudiant, nom, prenom FROM Etudiant ORDER BY nom, prenom;"""
+    mycursor.execute(sql_etudiants)
+    tous_les_etudiants = mycursor.fetchall()
+
+    # Récupérez la liste des identifiants de contrat
+    sql_contrat_ids = """SELECT id_contrat FROM Contrat ORDER BY id_contrat;"""
+    mycursor.execute(sql_contrat_ids)
+    contrat_ids = mycursor.fetchall()
+
+    if request.method == 'POST' or request.method == 'GET':
+        etablissement_id = request.form.get('etablissement_id')
         etudiant_id = request.form.get('etudiant_id')
+        contrat_id = request.form.get('contrat_id')
 
-        # Vous pouvez ajouter d'autres filtres ici en fonction de vos besoins
-
-        # Exécutez la requête en fonction des filtres fournis
+        # Construisez votre requête SQL pour sélectionner les étudiants et leurs contrats en fonction de l'établissement, de l'étudiant et de l'ID de contrat sélectionnés
         mycursor = get_db().cursor()
-        sql = '''SELECT E.nom_etablissement, F.nom_formation, C.id_composante, Etudiant.id_etudiant AS idEtudiant, Etudiant.nom AS nomEtudiant, Etudiant.prenom AS prenomEtudiant, Etudiant.email AS emailEtudiant, Etudiant.telephone AS telephoneEtudiant
-                 FROM Etudiant
-                 JOIN Composante C on Etudiant.id_composante = C.id_composante
-                 JOIN Etablissement E on C.id_etablissement = E.id_etablissement
-                 JOIN Formation F on C.id_formation = F.id_formation
-                 WHERE Etudiant.id_etudiant = %s
-                 ORDER BY idEtudiant;'''
-        mycursor.execute(sql, (etudiant_id,))
+
+        sql_contrats_etudiants = """SELECT E.nom_etablissement, F.nom_formation, C.id_composante, Etudiant.id_etudiant AS idEtudiant, Etudiant.nom AS nomEtudiant, Etudiant.prenom AS prenomEtudiant, Contrat.id_contrat, Contrat.date_debut, Contrat.date_fin
+                     FROM Etudiant
+                     JOIN Composante C on Etudiant.id_composante = C.id_composante
+                     JOIN Etablissement E on C.id_etablissement = E.id_etablissement
+                     JOIN Formation F on C.id_formation = F.id_formation
+                     LEFT JOIN Contrat on Etudiant.id_etudiant = Contrat.id_etudiant"""
+
+        tuple_params = []
+
+        if etablissement_id:
+            sql_contrats_etudiants += " WHERE E.id_etablissement = %s"
+            tuple_params.append(etablissement_id)
+
+        if etudiant_id:
+            if not etablissement_id:
+                sql_contrats_etudiants += " WHERE"
+            else:
+                sql_contrats_etudiants += " AND"
+            sql_contrats_etudiants += " Etudiant.id_etudiant = %s"
+            tuple_params.append(etudiant_id)
+
+        if contrat_id:
+            if not etablissement_id and not etudiant_id:
+                sql_contrats_etudiants += " WHERE"
+            else:
+                sql_contrats_etudiants += " AND"
+            sql_contrats_etudiants += " Contrat.id_contrat = %s"
+            tuple_params.append(contrat_id)
+
+        sql_contrats_etudiants += " ORDER BY idEtudiant;"
+
+        mycursor.execute(sql_contrats_etudiants, tuple_params)
         etudiants = mycursor.fetchall()
 
-        return render_template('etudiant/etat_etudiant.html', etudiants=etudiants)
+        return render_template('etudiant/etat_etudiant.html', etudiants=etudiants, etablissements=etablissements,
+                               tous_les_etudiants=tous_les_etudiants, contrat_ids=contrat_ids)
 
-    # Si la méthode est GET (accès initial à la page), affichez la page avec le formulaire
-    return render_template('etudiant/etat_etudiant.html')
+    return render_template('etudiant/etat_etudiant.html', etablissements=etablissements, tous_les_etudiants=tous_les_etudiants, contrat_ids=contrat_ids)
   
 #Contrat (Audrick)
 @app.route('/contrat/show')
