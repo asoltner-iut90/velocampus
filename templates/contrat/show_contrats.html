@@ -36,6 +36,9 @@
                     <td style="vertical-align: middle;">{{ ligne.dateDebut }}</td>
                     <td style="vertical-align: middle;">{{ ligne.dateFin }}</td>
                     <td style="vertical-align: middle;">
+                        <button style="width: 40px; height: 40px;" class="btn" onclick="window.location.href = '/contrat/etat?idContrat={{ ligne.idContrat }}'">
+                            <i class="fa fa-eye" style="color:rgb(39, 174, 187); font-size:20px; display:flex; justify-content: center; align-items: center; flex-direction: row;"></i>
+                        </button>
                         <button style="width: 40px; height: 40px;" class="btn" onclick="window.location.href = '/contrat/edit?id={{ ligne.idContrat }}'">
                             <i class="fa fa-pencil" style="color:rgb(70, 223, 31); font-size:20px; display:flex; justify-content: center; align-items: center; flex-direction: row;"></i>
                         </button>

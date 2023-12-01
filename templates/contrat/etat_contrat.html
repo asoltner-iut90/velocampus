@@ -6,24 +6,26 @@
 
 {% block body %}
 
-    <h3>Contrats</h3>
 
-    <form method="get" action="/contrat/etat " style="width:65%">
+    <form method="get" action="/contrat/etat " style="position: fixed; top:50vh;left:84vw; width:38vw; transform: translateY(-50%) translateX(-50%); background-color: white">
         <fieldset>
-            <legend> Selectionner les contrats</legend>
-            <select name="idContrat" class="form-select" id="idContrat" value="{{ request.form.idContrat }}">
+            <legend>Trouver les contrats correspondant à certains critères</legend>
+            <label for="idContrat" class="form-label">ID du contrat: </label>
+            <select name="idContrat" class="form-select" id="idContrat" value="{{ request.form.idContrat }}" style="width:230px">
                 <option value="" disabled selected>Choisissez un contrat</option>
                 {% for contrat in contrats %}
                     <option value="{{ contrat.idContrat }}"> {{ contrat.idContrat }} </option>
                 {% endfor %}
             </select><br>
-            <select name="idVelo" class="form-select" id="idVelo">
+            <label for="idVelo" class="form-label">ID du velo: </label>
+            <select name="idVelo" class="form-select" id="idVelo" style="width:230px">
                 <option value="" disabled selected>Choisissez un velo</option>
                 {% for velo in velos %}
                     <option value="{{ velo.id }}"> {{ velo.id }} </option>
                 {% endfor %}
             </select><br>
-            <select name="idEtudiant" class="form-select" id="idEtudiant">
+            <label for="idEtudiant" class="form-label">Etudiant:</label>
+            <select name="idEtudiant" class="form-select" id="idEtudiant" style="width:250px">
                 <option value="" disabled selected>Choisissez un etudiant</option>
                 {% for etudiant in etudiants %}
                     <option value="{{ etudiant.id }}"> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
@@ -31,89 +33,90 @@
             </select><br>
             <div class="input-container">
                 Date entre: 
-                <input id="dateDebut" type="date" name="dateDebut" value="" placeholder="Saisir la date de debut" class="form-control" style="width:150px;"> 
+                <input id="dateDebut" type="date" name="dateDebut" value="" placeholder="Saisir la date minimum" class="form-control" style="width:150px;"> 
                 et 
-                <input id="dateFin" type="date" name="dateFin" value="" placeholder="Saisir la date de fin" class="form-control" style="width:150px">
+                <input id="dateFin" type="date" name="dateFin" value="" placeholder="Saisir la date maximum" class="form-control" style="width:150px">
             </div>
             <br>
-            <input type="submit" value="Chercher" name="Valider" class="btn btn-dark">
+            <input type="submit" value="Chercher" name="Valider" class="btn btn-dark" >
         </fieldset>
     </form>
     <br>
-    {% if contrats | length == 1 %}
-    
-        <h3>Voici le seul contrat correspondant</h3>
-        {% for contrat in contrats %}
+    <div id="contrat_list" style="width:60vw">
+        {% if contrats | length == 1 %}
+        
+            <h3>Voici le seul contrat correspondant</h3>
+            {% for contrat in contrats %}
 
-            <div class="Contrat">
-                <div id="contrat_velo">
-                    <div id="Contrat" style="width:40vw;">
+                <div class="Contrat">
+                    <div id="contrat_velo" style="width: 40%;">
+                        <div id="Contrat" style="width:40%;">
+                            <hr>
+                            <table class="table table-striped-columns">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>{{contrat.idContrat}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date début</td>
+                                    <td>{{contrat.dateDebut}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date fin</td>
+                                    <td>{{contrat.dateFin}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div id="Velo" style="width:40%;">
+                            <hr>
+                            <table class="table table-striped-columns">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>{{contrat.idVelo}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Type Velo</td>
+                                    <td>{{contrat.typeVelo}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Caution</td>
+                                    <td>{{contrat.caution}} €</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="Etudiant" style="width:40%; float: left;">
                         <hr>
                         <table class="table table-striped-columns">
                             <tr>
-                                <td>ID</td>
-                                <td>{{contrat.idContrat}}</td>
+                                <td>Nom</td>
+                                <td>{{contrat.nom}}</td>
                             </tr>
                             <tr>
-                                <td>Date début</td>
-                                <td>{{contrat.dateDebut}}</td>
+                                <td>Prénom</td>
+                                <td>{{contrat.prenom}}</td>
                             </tr>
                             <tr>
-                                <td>Date fin</td>
-                                <td>{{contrat.dateFin}}</td>
+                                <td>N°de téléphone</td>
+                                <td>{{contrat.telephone}}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>{{contrat.email}}</td>
+                            </tr>
+                            <tr>
+                                <td>Formation</td>
+                                <td>{{contrat.formation}}</td>
+                            </tr>
+                            <tr>
+                                <td>Etablissement</td>
+                                <td>{{contrat.etablissement}}</td>
                             </tr>
                         </table>
                     </div>
 
-                    <div id="Velo" style="width:40vw;">
-                        <hr>
-                        <table class="table table-striped-columns">
-                            <tr>
-                                <td>ID</td>
-                                <td>{{contrat.idVelo}}</td>
-                            </tr>
-                            <tr>
-                                <td>Type Velo</td>
-                                <td>{{contrat.typeVelo}}</td>
-                            </tr>
-                            <tr>
-                                <td>Caution</td>
-                                <td>{{contrat.caution}} €</td>
-                            </tr>
-                        </table>
-                    </div>
                 </div>
-                <div id="Etudiant" style="width:40vw; float: left;">
-                    <hr>
-                    <table class="table table-striped-columns">
-                        <tr>
-                            <td>Nom</td>
-                            <td>{{contrat.nom}}</td>
-                        </tr>
-                        <tr>
-                            <td>Prénom</td>
-                            <td>{{contrat.prenom}}</td>
-                        </tr>
-                        <tr>
-                            <td>N°de téléphone</td>
-                            <td>{{contrat.telephone}}</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td>{{contrat.email}}</td>
-                        </tr>
-                        <tr>
-                            <td>Formation</td>
-                            <td>{{contrat.formation}}</td>
-                        </tr>
-                        <tr>
-                            <td>Etablissement</td>
-                            <td>{{contrat.etablissement}}</td>
-                        </tr>
-                    </table>
-                </div>
-
-            </div>
         {% endfor %}
     {% elif contrats | length > 1 %}
         <h3>Il y a {{ contrats | length }} contrats correspondant aux filtres</h3>
