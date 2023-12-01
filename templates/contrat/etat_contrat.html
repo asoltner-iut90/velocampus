@@ -1,0 +1,116 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    <title>Afficher l'Etat</title>
+{% endblock %}
+
+{% block body %}
+
+    <h3>Contrats</h3>
+
+    <form method="get" action="/contrat/etat " style="width:65%">
+        <fieldset>
+            <legend> Selectionner les contrats</legend>
+            <select name="idContrat" class="form-select" id="idContrat" value="{{ request.form.idContrat }}">
+                <option value="" disabled selected>Choisissez un contrat</option>
+                {% for contrat in contrats %}
+                    <option value="{{ contrat.idContrat }}"> {{ contrat.idContrat }} </option>
+                {% endfor %}
+            </select><br>
+            <select name="idVelo" class="form-select" id="idVelo">
+                <option value="" disabled selected>Choisissez un velo</option>
+                {% for velo in velos %}
+                    <option value="{{ velo.id }}"> {{ velo.id }} </option>
+                {% endfor %}
+            </select><br>
+            <select name="idEtudiant" class="form-select" id="idEtudiant">
+                <option value="" disabled selected>Choisissez un etudiant</option>
+                {% for etudiant in etudiants %}
+                    <option value="{{ etudiant.id }}"> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
+                    {% endfor %}
+            </select><br>
+            <div class="input-container">
+                Date entre: 
+                <input id="dateDebut" type="date" name="dateDebut" value="" placeholder="Saisir la date de debut" class="form-control" style="width:150px;"> 
+                et 
+                <input id="dateFin" type="date" name="dateFin" value="" placeholder="Saisir la date de fin" class="form-control" style="width:150px">
+            </div>
+            <br>
+            <input type="submit" value="Chercher" name="Valider" class="btn btn-dark">
+        </fieldset>
+    </form>
+    <br>
+    {% if contrats | length == 1 %}
+    
+        <h3>Voici le seul contrat correspondant</h3>
+        {% for contrat in contrats %}
+
+            <div id="contrat_caracteristique">
+                <div id="Etudiant" style="width:40vw; float: left;">
+                    <hr>
+                    <table class="table table-striped-columns">
+                        <tr>
+                            <td>Nom</td>
+                            <td>{{contrat.nom}}</td>
+                        </tr>
+                        <tr>
+                            <td>Prénom</td>
+                            <td>{{contrat.prenom}}</td>
+                        </tr>
+                        <tr>
+                            <td>N°de téléphone</td>
+                            <td>{{contrat.telephone}}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>{{contrat.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Formation</td>
+                            <td>{{contrat.formation}}</td>
+                        </tr>
+                        <tr>
+                            <td>Etablissement</td>
+                            <td>{{contrat.etablissement}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="contrat_velo">
+                    <div id="Contrat" style="width:40vw;">
+                        <hr>
+                        <table class="table table-striped-columns">
+                            <tr>
+                                <td>Date début</td>
+                                <td>{{contrat.dateDebut}}</td>
+                            </tr>
+                            <tr>
+                                <td>Date fin</td>
+                                <td>{{contrat.dateFin}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="Velo" style="width:40vw;">
+                        <hr>
+                        <table class="table table-striped-columns">
+                            <tr>
+                                <td>Type Velo</td>
+                                <td>{{contrat.typeVelo}}</td>
+                            </tr>
+                            <tr>
+                                <td>Caution</td>
+                                <td>{{contrat.caution}} €</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% elif contrats | length > 1 %}
+        <h3>Il y a {{ contrats | length }} contrats correspondant aux filtres</h3>
+    {% else %}
+        <h3>Aucun contrats correspondant aux filtres</h3>
+    {% endif %}
+    
+
+{% endblock %}
