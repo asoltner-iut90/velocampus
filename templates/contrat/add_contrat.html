@@ -24,9 +24,9 @@
                     <option value="{{ etudiant.id }}"> {{ etudiant.nom }} {{ etudiant.prenom }} (id: {{ etudiant.id }})</option>
                     {% endfor %}
             </select><br>
-            <input id="dateDebut" type="datetime-local" name="dateDebut" value=""
+            <input id="dateDebut" type="date" name="dateDebut" value=""
                 placeholder="Saisir la date de debut" class="form-control" required><br>
-            <input id="dateFin" type="datetime-local" name="dateFin" value=""
+            <input id="dateFin" type="date" name="dateFin" value=""
                 placeholder="Saisir la date de fin" class="form-control" required><br>
             <input type="submit" value="Créer" name="Valider" class="btn btn-dark">
         </fieldset>

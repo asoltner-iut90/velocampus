@@ -7,7 +7,7 @@
 {% block body %}
 
 
-    <form method="get" action="/contrat/etat " style="position: fixed; top:50vh;left:84vw; width:38vw; transform: translateY(-50%) translateX(-50%); background-color: white">
+    <form method="get" action="/contrat/etat " style="position: fixed; top:53vh;left:80vw; width:38vw; transform: translateY(-50%) translateX(-50%); background-color: white">
         <fieldset>
             <legend>Trouver les contrats correspondant à certains critères</legend>
             <label for="idContrat" class="form-label">ID du contrat: </label>
@@ -43,16 +43,21 @@
     </form>
     <br>
     <div id="contrat_list" style="width:60vw">
-        {% if contrats | length == 1 %}
-        
-            <h3>Voici le seul contrat correspondant</h3>
+        {% if contrats | length >= 1 %}
+
+            {% if contrats | length > 1 %}
+                <h3>Il y a {{ contrats | length }} contrats correspondant aux filtres</h3>
+            {% else %}
+                <h3>Voici le seul contrat correspondant</h3>
+            {% endif %}
+
             {% for contrat in contrats %}
 
                 <div class="Contrat">
-                    <div id="contrat_velo" style="width: 40%;">
-                        <div id="Contrat" style="width:40%;">
+                    <div id="contrat_velo" style="width: 30%;">
+                        <div id="Contrat">
                             <hr>
-                            <table class="table table-striped-columns">
+                            <table class="table table-striped-columns" style="width: 100%;">
                                 <tr>
                                     <td>ID</td>
                                     <td>{{contrat.idContrat}}</td>
@@ -68,7 +73,7 @@
                             </table>
                         </div>
 
-                        <div id="Velo" style="width:40%;">
+                        <div id="Velo">
                             <hr>
                             <table class="table table-striped-columns">
                                 <tr>
@@ -86,7 +91,7 @@
                             </table>
                         </div>
                     </div>
-                    <div id="Etudiant" style="width:40%; float: left;">
+                    <div id="Etudiant" style="width:50%; float: left;">
                         <hr>
                         <table class="table table-striped-columns">
                             <tr>
@@ -118,8 +123,6 @@
 
                 </div>
         {% endfor %}
-    {% elif contrats | length > 1 %}
-        <h3>Il y a {{ contrats | length }} contrats correspondant aux filtres</h3>
     {% else %}
         <h3>Aucun contrats correspondant aux filtres</h3>
     {% endif %}
