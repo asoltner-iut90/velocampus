@@ -296,7 +296,7 @@ def etat_etudiant():
         # Construisez votre requête SQL pour sélectionner les étudiants et leurs contrats en fonction de l'établissement, de l'étudiant et de l'ID de contrat sélectionnés
         mycursor = get_db().cursor()
 
-        sql_contrats_etudiants = """SELECT E.nom_etablissement, F.nom_formation, C.id_composante, Etudiant.id_etudiant AS idEtudiant, Etudiant.nom AS nomEtudiant, Etudiant.prenom AS prenomEtudiant, Contrat.id_contrat, Contrat.date_debut, Contrat.date_fin
+        sql_contrats_etudiants = """SELECT E.nom_etablissement, F.nom_formation, C.id_composante, Etudiant.id_etudiant AS idEtudiant, Etudiant.nom AS nomEtudiant, Etudiant.prenom AS prenomEtudiant, Etudiant.email AS emailEtudiant, Etudiant.telephone AS telephoneEtudiant,Contrat.id_contrat, Contrat.date_debut, Contrat.date_fin
                      FROM Etudiant
                      JOIN Composante C on Etudiant.id_composante = C.id_composante
                      JOIN Etablissement E on C.id_etablissement = E.id_etablissement
