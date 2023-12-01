@@ -371,6 +371,7 @@ def edit_contrat():
     ORDER BY id_velo;'''
     mycursor.execute(sql)
     liste_velos = mycursor.fetchall()
+    
     return render_template('contrat/edit_contrat.html', contrat=contrat, velos=liste_velos, etudiants=liste_etudiants)
 
 @app.route('/contrat/edit', methods=['POST'])
@@ -390,11 +391,32 @@ def valid_edit_contrat():
     get_db().commit()
     return redirect('/contrat/show')
 
-@app.route('/contrat/etat')
+@app.route('/contrat/etat', methods=['GET'])
 def view_contrat():
+    mycursor = get_db().cursor()
+    #Request
+    idContrat = request.args.get('idContrat',"")
+    idVelo = request.args.get('idVelo',"")
+    idEtudiant = request.args.get('idEtudiant',"")
+    dateDebut = request.args.get('dateDebut',"")
+    dateFin = request.args.get('dateFin',"")
+    print('Contrat:',idContrat,'Velo:',idVelo,'Etudiant:',idEtudiant,'debut:',dateDebut,'fin:', dateFin)
+    #Etudiants
+    sql='''SELECT id_etudiant AS id, nom, prenom
+    FROM Etudiant
+    ORDER BY id_etudiant;'''
+    mycursor.execute(sql)
+    liste_etudiants = mycursor.fetchall()
+    #Velo
+    sql='''SELECT id_velo AS id
+    FROM Velo
+    ORDER BY id_velo;'''
+    mycursor.execute(sql)
+    liste_velos = mycursor.fetchall()
+    #Contrats
     sql="""SELECT Contrat.id_contrat AS idContrat, Contrat.date_debut as dateDebut, Contrat.date_fin AS dateFin, Contrat.id_etudiant AS idEtudiant,
        E.nom AS nom, E.prenom AS prenom, E.email AS email, E.telephone as telephone,
-       Tv.caution AS caution, Tv.nom_type_velo AS type_velo,
+       Tv.caution AS caution, Tv.nom_type_velo AS typeVelo,
        Etablissement.nom_etablissement AS etablissement, F.nom_formation AS formation
         FROM Contrat
         JOIN Etudiant E ON Contrat.id_etudiant = E.id_etudiant
@@ -402,12 +424,30 @@ def view_contrat():
         JOIN Type_velo Tv on V.id_type_velo = Tv.id_type_velo
         JOIN Composante C on E.id_composante = C.id_composante
         JOIN Etablissement on C.id_etablissement = Etablissement.id_etablissement
-        JOIN Formation F on C.id_formation = F.id_formation"""
-    mycursor = get_db().cursor()
+        JOIN Formation F on C.id_formation = F.id_formation
+        WHERE 1=1"""
     tuple_param=()
+    if idContrat != "":
+        sql += " AND Contrat.id_contrat = %s"
+        tuple_param += (idContrat,)
+
+    if idVelo != "":
+        sql += " AND Contrat.id_velo = %s"
+        tuple_param += (idVelo,)
+
+    if idEtudiant != "":
+        sql += " AND Contrat.id_etudiant = %s"
+        tuple_param += (idEtudiant,)
+    
+    if dateDebut!= "" and dateFin != "":
+        sql += " AND Contrat.dateDebut >= %s AND Contrat.dateFin <= %s "
+        tuple_param += (dateDebut, dateFin,)
+    
+    sql += " ORDER BY Contrat.id_contrat"
+    print(sql)
     mycursor.execute(sql,tuple_param)
-    contrat = mycursor.fetchone()
-    return render_template('contrat/view_contrat.html', contrat=contrat)
+    contrats = mycursor.fetchall()
+    return render_template('contrat/etat_contrat.html', contrats=contrats, etudiants = liste_etudiants, velos=liste_velos)
 
 #Répatation(Mattéo)
 @app.route('/reparation/show')
@@ -464,6 +504,6 @@ def valid_add_reparation():
 
 
 
-
+#Run
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
