@@ -449,6 +449,7 @@ def view_contrat():
     contrats = mycursor.fetchall()
     return render_template('contrat/etat_contrat.html', contrats=contrats, etudiants = liste_etudiants, velos=liste_velos)
 
+
 #Répatation(Mattéo)
 @app.route('/reparation/show')
 def show_reparation():
@@ -493,6 +494,44 @@ def valid_add_reparation():
     sql = "INSERT INTO Reparation (date_reparation, descriptif, id_velo) VALUES (%s, %s,%s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
+    return redirect('/reparation/show')
+
+
+@app.route('/reparation/edit', methods=['GET'])
+def edit_reparation():
+    print('''affichage du formulaire pour modifier une réparation''')
+    print(request.args)
+    print(request.args.get('id'))
+    id = request.args.get('id')
+    mycursor = get_db().cursor()
+    sql = '''SELECT Reparation.id_reparation AS idReparation, Reparation.date_reparation AS dateReparation, Reparation.descriptif AS descriptif,
+    Velo.id_velo as idVelo
+    FROM Reparation JOIN Velo ON Reparation.id_velo = Velo.id_velo
+    WHERE Reparation.id_reparation=%s;'''
+    tuple_param = (id)
+    mycursor.execute(sql, tuple_param)
+    reparation = mycursor.fetchone()
+    sql = '''SELECT id_velo AS id
+        FROM Velo
+        ORDER BY id_velo;'''
+    mycursor.execute(sql)
+    liste_velos = mycursor.fetchall()
+    print(reparation,liste_velos)
+    return render_template('reparation/edit_reparation.html', reparation=reparation,liste_velos=liste_velos)
+
+@app.route('/reparation/edit', methods=['POST'])
+def valid_edit_reparation():
+    print('''modification du contrat dans le tableau''')
+    idVelo = request.form.get('idVelo')
+    idReparation = request.form.get('idReparation')
+    dateReparation = request.form.get('date_reparation')
+    descriptif = request.form.get('descriptif')
+    mycursor = get_db().cursor()
+    tuple_param=(idVelo,dateReparation,descriptif,idReparation)
+    sql="UPDATE Reparation SET id_velo = %s, date_reparation = %s, descriptif = %s WHERE id_reparation=%s;"
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    print(tuple_param)
     return redirect('/reparation/show')
 
 
