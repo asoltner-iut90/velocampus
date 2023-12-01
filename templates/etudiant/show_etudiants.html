@@ -32,8 +32,13 @@
                     <td>{{ ligne.emailEtudiant }}</td>
                     <td>{{ ligne.telephoneEtudiant }}</td>
                     <td>{{ ligne.nom_formation }}</td>
+                    <td style="vertical-align: middle;">
+                        <div class="group" style="text-align: center;">
+                            <div class="left-group" style="width: 80%; font-size: 14px">{{ ligne.nom_formation }}</div>
+                            <div class="right-group" style="width: 20%; font-size: 14px">id: {{ ligne.id_composante }}</div>
+                        </div>
+                    </td>
                     <td>{{ ligne.nom_etablissement }}</td>
-                    <td>{{ ligne.id_composante }}</td>
                     <td>
                         <button style="width: 40px; height: 40px;" class="btn" onclick="window.location.href = '/etudiant/edit?id={{ ligne.idEtudiant }}'">
                             <i class="fa fa-pencil" style="color:rgb(70, 223, 31); font-size:20px; display:flex; justify-content: center; align-items: center; flex-direction: row;"></i>
