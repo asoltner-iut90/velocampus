@@ -474,33 +474,27 @@ def delete_reparation():
 @app.route('/reparation/add', methods=['GET'])
 def add_reparation():
     mycursor = get_db().cursor()
-    sql='''SELECT Reparation.id_reparation AS idReparation, Reparation.date_reparation AS dateReparation, Reparation.descriptif AS descriptif, 
-        Velo.id_velo as idVelo
-        FROM Reparation JOIN Velo ON Reparation.id_velo = Velo.id_velo
-        ORDER BY id_reparation;'''
-    mycursor.execute(sql)
-    reparations = mycursor.fetchall()
     sql = '''SELECT Velo.id_velo as idVelo
             FROM Velo
             ORDER BY id_velo;'''
     mycursor.execute(sql)
     velos = mycursor.fetchall()
     print('''affichage du formulaire pour saisir une réparation''')
-    return render_template('reparation/add_reparation.html', reparations=reparations,velos = velos)
-
-
+    return render_template('reparation/add_reparation.html',velos = velos)
+  
 @app.route('/reparation/add', methods=['POST'])
 def valid_add_reparation():
     print('''ajout de la réparation dans le tableau''')
     idVelo = request.form.get('idVelo')
-    dateReparation = request.form.get('dateReparation')
+    dateReparation = request.form.get('date_reparation')
     descriptif = request.form.get('descriptif')
     mycursor = get_db().cursor()
     tuple_param = (dateReparation, descriptif, idVelo)
-    sql = "INSERT INTO Reparation (dateReparation, descriptif, id_velo) VALUES (%s, %s,%s);"
+    sql = "INSERT INTO Reparation (date_reparation, descriptif, id_velo) VALUES (%s, %s,%s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
-    return redirect('/contrat/show')
+    return redirect('/reparation/show')
+
 
 
 
