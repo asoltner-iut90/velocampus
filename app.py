@@ -440,7 +440,7 @@ def view_contrat():
         tuple_param += (idEtudiant,)
     
     if dateDebut!= "" and dateFin != "":
-        sql += " AND Contrat.dateDebut >= %s AND Contrat.dateFin <= %s "
+        sql += " AND Contrat.date_debut >= %s AND Contrat.date_fin <= %s "
         tuple_param += (dateDebut, dateFin,)
     
     sql += " ORDER BY Contrat.id_contrat"

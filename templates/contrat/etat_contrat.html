@@ -45,7 +45,44 @@
         <h3>Voici le seul contrat correspondant</h3>
         {% for contrat in contrats %}
 
-            <div id="contrat_caracteristique">
+            <div class="Contrat">
+                <div id="contrat_velo">
+                    <div id="Contrat" style="width:40vw;">
+                        <hr>
+                        <table class="table table-striped-columns">
+                            <tr>
+                                <td>ID</td>
+                                <td>{{contrat.idContrat}}</td>
+                            </tr>
+                            <tr>
+                                <td>Date début</td>
+                                <td>{{contrat.dateDebut}}</td>
+                            </tr>
+                            <tr>
+                                <td>Date fin</td>
+                                <td>{{contrat.dateFin}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="Velo" style="width:40vw;">
+                        <hr>
+                        <table class="table table-striped-columns">
+                            <tr>
+                                <td>ID</td>
+                                <td>{{contrat.idVelo}}</td>
+                            </tr>
+                            <tr>
+                                <td>Type Velo</td>
+                                <td>{{contrat.typeVelo}}</td>
+                            </tr>
+                            <tr>
+                                <td>Caution</td>
+                                <td>{{contrat.caution}} €</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
                 <div id="Etudiant" style="width:40vw; float: left;">
                     <hr>
                     <table class="table table-striped-columns">
@@ -75,35 +112,7 @@
                         </tr>
                     </table>
                 </div>
-                <div id="contrat_velo">
-                    <div id="Contrat" style="width:40vw;">
-                        <hr>
-                        <table class="table table-striped-columns">
-                            <tr>
-                                <td>Date début</td>
-                                <td>{{contrat.dateDebut}}</td>
-                            </tr>
-                            <tr>
-                                <td>Date fin</td>
-                                <td>{{contrat.dateFin}}</td>
-                            </tr>
-                        </table>
-                    </div>
 
-                    <div id="Velo" style="width:40vw;">
-                        <hr>
-                        <table class="table table-striped-columns">
-                            <tr>
-                                <td>Type Velo</td>
-                                <td>{{contrat.typeVelo}}</td>
-                            </tr>
-                            <tr>
-                                <td>Caution</td>
-                                <td>{{contrat.caution}} €</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
             </div>
         {% endfor %}
     {% elif contrats | length > 1 %}
