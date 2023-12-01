@@ -449,6 +449,11 @@ def view_contrat():
     ORDER BY id_etudiant;'''
     mycursor.execute(sql)
     liste_etudiants = mycursor.fetchall()
+    sql='''SELECT id_contrat AS id
+    FROM Contrat
+    ORDER BY id_contrat;'''
+    mycursor.execute(sql)
+    liste_contrats = mycursor.fetchall()
     #Velo
     sql='''SELECT id_velo AS id
     FROM Velo
@@ -489,7 +494,7 @@ def view_contrat():
     print(sql)
     mycursor.execute(sql,tuple_param)
     contrats = mycursor.fetchall()
-    return render_template('contrat/etat_contrat.html', contrats=contrats, etudiants = liste_etudiants, velos=liste_velos)
+    return render_template('contrat/etat_contrat.html', contrats=contrats, etudiants = liste_etudiants, velos=liste_velos, liste_contrats=liste_contrats)
 
 
 #Répatation(Mattéo)

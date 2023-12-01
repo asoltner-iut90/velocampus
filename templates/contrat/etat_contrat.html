@@ -13,8 +13,8 @@
             <label for="idContrat" class="form-label">ID du contrat: </label>
             <select name="idContrat" class="form-select" id="idContrat" value="{{ request.form.idContrat }}" style="width:230px">
                 <option value="" disabled selected>Choisissez un contrat</option>
-                {% for contrat in contrats %}
-                    <option value="{{ contrat.idContrat }}"> {{ contrat.idContrat }} </option>
+                {% for contrat in liste_contrats %}
+                    <option value="{{ contrat.id }}"> {{ contrat.id }} </option>
                 {% endfor %}
             </select><br>
             <label for="idVelo" class="form-label">ID du velo: </label>
