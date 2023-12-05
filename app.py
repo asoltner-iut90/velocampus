@@ -463,7 +463,7 @@ def view_contrat():
     #Contrats
     sql="""SELECT Contrat.id_contrat AS idContrat, Contrat.date_debut as dateDebut, Contrat.date_fin AS dateFin, Contrat.id_etudiant AS idEtudiant,
        E.nom AS nom, E.prenom AS prenom, E.email AS email, E.telephone as telephone,
-       Tv.caution AS caution, Tv.nom_type_velo AS typeVelo,
+       V.id_velo AS idVelo ,Tv.caution AS caution, Tv.nom_type_velo AS typeVelo,
        Etablissement.nom_etablissement AS etablissement, F.nom_formation AS formation
         FROM Contrat
         JOIN Etudiant E ON Contrat.id_etudiant = E.id_etudiant
