@@ -581,6 +581,29 @@ def valid_edit_reparation():
     print(tuple_param)
     return redirect('/reparation/show')
 
+@app.route('/reparation/etat',methods=['GET'])
+def show_etat():
+    print('''affichage de l etat ''')
+    mycursor = get_db().cursor()
+    sql = '''SELECT Reparation.id_reparation AS idReparation, Reparation.date_reparation AS dateReparation, Reparation.descriptif AS descriptif,
+        Velo.id_velo as idVelo
+        FROM Reparation JOIN Velo ON Reparation.id_velo = Velo.id_velo
+        ;'''
+    mycursor.execute(sql)
+    reparation = mycursor.fetchone()
+    sql = '''SELECT distinct Velo.id_type_velo AS idVelo, Type_velo.nom_type_velo as nomType
+            FROM Velo JOIN Type_velo ON Velo.id_type_velo = Type_velo.id_type_velo
+            ORDER BY Type_velo.id_type_velo;
+            '''
+    mycursor.execute(sql)
+    liste_velos = mycursor.fetchall()
+    reparation = mycursor.fetchone()
+    sql = '''SELECT DISTINCT Reparation.descriptif AS descriptif
+                FROM Reparation;'''
+    mycursor.execute(sql)
+    liste_descriptif = mycursor.fetchall()
+    print(reparation, liste_velos,liste_descriptif)
+    return render_template('reparation/etat_reparation.html', reparation=reparation, liste_velos=liste_velos,liste_descriptif=liste_descriptif)
 
 
 
