@@ -75,8 +75,8 @@ CREATE TABLE Etudiant(
 -- Création de la table Contrat
 CREATE TABLE Contrat(
    id_contrat INT AUTO_INCREMENT,
-   date_debut DATETIME,
-   date_fin DATETIME,
+   date_debut DATE,
+   date_fin DATE,
    id_etudiant INT NOT NULL,
    id_velo INT NOT NULL,
    PRIMARY KEY(id_contrat),
@@ -143,11 +143,11 @@ INSERT INTO Etudiant (nom, prenom, email, telephone, id_composante) VALUES
 
 -- Insertion dans la table Contrat
 INSERT INTO Contrat (date_debut, date_fin, id_etudiant, id_velo) VALUES
-    ('2023-10-01 08:00:00', '2023-11-01 08:00:00', 1, 1),
-    ('2023-09-15 10:00:00', '2023-10-15 10:00:00', 2, 2),
-    ('2023-11-01 09:00:00', '2023-12-01 09:00:00', 3, 3),
-    ('2023-11-05 09:00:00', '2023-12-05 09:00:00', 1, 3),
-    ('2023-10-20 10:00:00', '2023-11-20 10:00:00', 3, 1);
+    ('2023-10-01', '2023-11-01', 1, 1),
+    ('2023-09-15', '2023-10-15', 2, 2),
+    ('2023-11-01', '2023-12-01', 3, 3),
+    ('2023-11-05', '2023-12-05', 1, 3),
+    ('2023-10-20', '2023-11-20', 3, 1);
 
 -- Insertion dans la table Possede
 INSERT INTO Possede (id_velo, id_piece) VALUES
